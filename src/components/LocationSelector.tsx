@@ -112,10 +112,6 @@ export default function LocationSelector({
 
   return (
     <div className="mt-4 h-100">
-      <div className="sidebar hidden sm:block">
-        Lat: {value[1].toFixed(4)} | Lng: {value[0].toFixed(4)}
-      </div>
-
       <div id="map-container" className="h-96 w-full" ref={mapContainerRef} />
     </div>
   );
