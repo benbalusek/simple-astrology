@@ -49,6 +49,18 @@ export default function HomePage() {
   const resultsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
+    if (!planets.length || !resultsRef.current) return;
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        resultsRef.current!.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
+    });
+  }, [planets.length]);
+
+  useEffect(() => {
     setBlockNotice(null);
     setError(null);
   }, [date, location]);
@@ -153,7 +165,7 @@ export default function HomePage() {
         </p>
       )}
       <div ref={resultsRef} className="scroll-mt-24"></div>
-      <AstrologySigns planets={planets} />
+      <AstrologySigns planets={planets} anchorRef={resultsRef} />
     </>
   );
 }

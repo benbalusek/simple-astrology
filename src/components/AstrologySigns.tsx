@@ -30,7 +30,13 @@ const Z: Record<Zodiac, string> = {
   Pisces: "♓︎",
 };
 
-export default function AstrologySigns({ planets }: { planets: PlanetRow[] }) {
+export default function AstrologySigns({
+  planets,
+  anchorRef,
+}: {
+  planets: PlanetRow[];
+  anchorRef?: React.RefObject<HTMLDivElement | null>;
+}) {
   const [openIdx, setOpenIdx] = useState<number | null>(null);
 
   const toggle = (i: number) => setOpenIdx((cur) => (cur === i ? null : i));
@@ -53,7 +59,7 @@ export default function AstrologySigns({ planets }: { planets: PlanetRow[] }) {
   return (
     <>
       <div
-        ref={containerRef}
+        ref={anchorRef}
         className="my-8 grid grid-cols-2 gap-4 sm:grid-cols-3"
       >
         {planets.map(({ planet, sign }, i) => {
