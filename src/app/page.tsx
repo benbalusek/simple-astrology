@@ -8,7 +8,7 @@ import Logo from "@/components/Logo";
 import { type PlanetRow } from "@/types/astro";
 import { getTimezoneOffset } from "@/utils/timezone";
 import dayjs, { Dayjs } from "dayjs";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 export default function HomePage() {
   type ApiPlanet = {
@@ -45,6 +45,8 @@ export default function HomePage() {
   }, [location, lastLoc]);
 
   const canCalculate = !!date && (dateChanged || locChanged) && !loading;
+
+  const resultsRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     setBlockNotice(null);
@@ -124,6 +126,13 @@ export default function HomePage() {
       setPlanets(simplifiedPlanets);
       setLastDate(date);
       setLastLoc(location);
+
+      requestAnimationFrame(() => {
+        resultsRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      });
     } catch (e) {
       console.log(e);
       setError("Could not fetch planets. Please try again.");
@@ -143,6 +152,7 @@ export default function HomePage() {
           {error ?? blockNotice}
         </p>
       )}
+      <div ref={resultsRef} className="scroll-mt-24"></div>
       <AstrologySigns planets={planets} />
     </>
   );
